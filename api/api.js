@@ -2,6 +2,7 @@ import XHRRequest from './xhr-request';
 import EmptyFieldsException from './exceptions/EmptyFieldsException';
 /* Validations */
 import createColumnValidation from './validation/create-column-validation';
+import editColumnValidation from './validation/edit-column-validation';
 import createCardValidation from './validation/create-card-validation';
 /**
  * /columns
@@ -113,7 +114,7 @@ export const addCard = async ({ columnId, card }) => {
 export const editColumn = async ({ columnId, column }) => {
     try {
 
-        const { errors, isValid } = await createColumnValidation(column);
+        const { errors, isValid } = await editColumnValidation(columnId, column);
         if ( ! isValid) throw new EmptyFieldsException(errors);
 
         const url = `http://localhost:3000/columns/${columnId}`
