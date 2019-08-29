@@ -29,7 +29,7 @@ npm test
 
 ---
 # In Progress
-- Edit Columns and Cards
+- Edit Cards
 - Extend card instead of modal
 - Delete confirmation popup
 - Draggable cards to be put in another column
