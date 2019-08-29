@@ -8,10 +8,10 @@ import createCardValidation from './validation/create-card-validation';
  * [GET]
  * Get columns
  */
-export const fetchColumns = async () => {
+export const fetchColumns = async (params = '') => {
     try {
 
-        const response = await fetch("http://localhost:3000/columns");
+        const response = await fetch(`http://localhost:3000/columns?${params}`);
         return await response.json();
 
     } catch (err) {
@@ -44,10 +44,10 @@ export const fetchCards = async () => {
  * [GET]
  * Get all card according to its column
  */
-export const fetchCardsByColumn = async columnId => {
+export const fetchCardsByColumn = async (columnId, params = '') => {
     try {
 
-        const response = await fetch(`http://localhost:3000/columns/${columnId}/cards`);
+        const response = await fetch(`http://localhost:3000/columns/${columnId}/cards?${params}`);
         return await response.json();
 
     } catch (err) {
@@ -65,7 +65,7 @@ export const fetchCardsByColumn = async columnId => {
 export const addColumn = async (column) => {
     try {
 
-        const { errors, isValid } = createColumnValidation(column);
+        const { errors, isValid } = await createColumnValidation(column);
         if ( ! isValid) throw new EmptyFieldsException(errors);
 
         const url = `http://localhost:3000/columns`
@@ -89,9 +89,8 @@ export const addColumn = async (column) => {
 export const addCard = async ({ columnId, card }) => {
     try {
 
-        const { errors, isValid } = createCardValidation(card);
+        const { errors, isValid } = await createCardValidation(columnId, card);
         if ( ! isValid) throw new EmptyFieldsException(errors);
-
 
         const url = `http://localhost:3000/columns/${columnId}/cards`
         return await XHRRequest.post({
