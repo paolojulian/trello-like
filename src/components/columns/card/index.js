@@ -1,12 +1,12 @@
 import { deleteCard } from '../../../../api/api';
 import './card-modal';
+import './card-edit';
 const template = document.createElement('template');
 template.innerHTML = `
     <style>
         :host {
             display: block;
-        }
-        .card {
+            position: relative;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
             border-radius: 10px;
             margin: 1rem 0;
@@ -14,6 +14,8 @@ template.innerHTML = `
             overflow: hidden;
             transition: all 200ms ease-in-out;
             user-select: none;
+        }
+        .card {
         }
         .card:hover {
             background-color: #EEEEEE;
@@ -23,7 +25,6 @@ template.innerHTML = `
             color: var(--my-font-white);
         }
         .header {
-            position: relative;
             padding: 1rem;
             border-bottom: 1px solid rgba(0, 0, 0, 0.15);
             transition: all 200ms ease-in-out;
@@ -37,24 +38,31 @@ template.innerHTML = `
             max-height: 100px;
             overflow: auto;
         }
-        .delete {
+        .actions {
             position: absolute;
-            top: 50%;
+            top: 0.5rem;
             right: 1rem;
-            transform: translateY(-50%);
         }
     </style>
 
+    <div class="actions">
+        <my-button
+            class="edit"
+            fab
+            fab-size="sm">
+            E
+        </my-button>
+        <my-button
+            class="delete"
+            backgroundColor="#EB5757"
+            fab
+            fab-size="sm">
+            X
+        </my-button>
+    </div>
     <div class="card">
         <div class="header">
             <span id="title"></span>
-            <my-button
-                class="delete"
-                backgroundColor="#EB5757"
-                fab
-                fab-size="sm">
-                X
-            </my-button>
         </div>
         <div class="content">
             <span id="description"></span>
@@ -73,16 +81,19 @@ class MyColumn extends HTMLElement {
         this.$title = this._shadowRoot.querySelector('#title');
         this.$description = this._shadowRoot.querySelector('#description');
         this.$deleteBtn = this._shadowRoot.querySelector('.delete');
+        this.$editBtn = this._shadowRoot.querySelector('.edit');
         
     }
 
     connectedCallback() {
         this.$deleteBtn.addEventListener('onClick', this._deleteCard.bind(this));
+        this.$editBtn.addEventListener('onClick', this._editCard.bind(this));
         this.$card.addEventListener('click', this._viewCard.bind(this));
     }
 
     disconnectedCallback() {
         this.$deleteBtn.removeEventListener('click', this._deleteCard.bind(this));
+        this.$editBtn.removeEventListener('onClick', this._editCard.bind(this));
         this.$card.removeEventListener('click', this._viewCard.bind(this));
     }
 
@@ -117,14 +128,25 @@ class MyColumn extends HTMLElement {
     }
 
     /**
-     * Opens a modal to view details of the card,
-     * can also edit the details of the card
+     * TODO: no modals just extend card
+     * 
+     * Opens a modal to view details of the card
      */
     _viewCard () {
         let $cardModal = document.createElement('card-modal');
         $cardModal.title = this._card.title;
         $cardModal.description = this._card.description;
         this._shadowRoot.appendChild($cardModal);
+    }
+
+    /**
+     * Opens a modal to edit the card
+     */
+    _editCard () {
+        let $cardEdit = document.createElement('card-edit');
+        this._shadowRoot.appendChild($cardEdit);
+        $cardEdit.title = this._card.title;
+        $cardEdit.description = this._card.description;
     }
 }
 
