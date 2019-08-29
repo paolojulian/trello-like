@@ -27,10 +27,10 @@ export const fetchColumns = async (params = '') => {
  * [GET]
  * Get all cards
  */
-export const fetchCards = async () => {
+export const fetchCards = async (params) => {
     try {
 
-        const response = await fetch("http://localhost:3000/cards");
+        const response = await fetch(`http://localhost:3000/cards?${params}`);
         return await response.json();
 
     } catch (err) {
@@ -90,7 +90,7 @@ export const addColumn = async (column) => {
 export const addCard = async ({ columnId, card }) => {
     try {
 
-        const { errors, isValid } = await createCardValidation(columnId, card);
+        const { errors, isValid } = await createCardValidation(card);
         if ( ! isValid) throw new EmptyFieldsException(errors);
 
         const url = `http://localhost:3000/columns/${columnId}/cards`
