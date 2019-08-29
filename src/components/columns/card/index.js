@@ -1,4 +1,5 @@
 import { deleteCard } from '../../../../api/api';
+import dragNDrop from '../../../utils/drag-n-drop';
 import './card-modal';
 import './card-edit';
 const template = document.createElement('template');
@@ -6,6 +7,8 @@ template.innerHTML = `
     <style>
         :host {
             display: block;
+        }
+        .fill {
             position: relative;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
             border-radius: 10px;
@@ -15,12 +18,16 @@ template.innerHTML = `
             transition: all 200ms ease-in-out;
             user-select: none;
         }
-        .card {
+        .hold {
+            border: solid #ccc 2px;
         }
-        .card:hover {
+        .invisible {
+            display: none;
+        }
+        .fill:hover {
             background-color: #EEEEEE;
         }
-        .card:hover .header {
+        .fill:hover .header {
             background-color: var(--my-secondary);
             color: var(--my-font-white);
         }
@@ -28,6 +35,9 @@ template.innerHTML = `
             padding: 1rem;
             border-bottom: 1px solid rgba(0, 0, 0, 0.15);
             transition: all 200ms ease-in-out;
+        }
+        #title {
+            text-transform: capitalize;
         }
         .content {
             padding: 1rem;
@@ -45,24 +55,24 @@ template.innerHTML = `
         }
     </style>
 
-    <div class="actions">
-        <my-button
-            class="edit"
-            fab
-            fab-size="sm">
-            E
-        </my-button>
-        <my-button
-            class="delete"
-            backgroundColor="#EB5757"
-            fab
-            fab-size="sm">
-            X
-        </my-button>
-    </div>
-    <div class="card">
+    <div class="fill" draggable="true">
         <div class="header">
             <span id="title"></span>
+            <div class="actions">
+                <my-button
+                    class="edit"
+                    fab
+                    fab-size="sm">
+                    E
+                </my-button>
+                <my-button
+                    class="delete"
+                    backgroundColor="#EB5757"
+                    fab
+                    fab-size="sm">
+                    X
+                </my-button>
+            </div>
         </div>
         <div class="content">
             <span id="description"></span>
@@ -77,7 +87,9 @@ class MyColumn extends HTMLElement {
         this._shadowRoot = this.attachShadow({ mode: 'open' });
         this._shadowRoot.appendChild(template.content.cloneNode(true));
 
-        this.$card = this._shadowRoot.querySelector('.card');
+        this.$card = this._shadowRoot.querySelector('.fill');
+        this.$content = this._shadowRoot.querySelector('.content');
+
         this.$title = this._shadowRoot.querySelector('#title');
         this.$description = this._shadowRoot.querySelector('#description');
         this.$deleteBtn = this._shadowRoot.querySelector('.delete');
@@ -86,15 +98,19 @@ class MyColumn extends HTMLElement {
     }
 
     connectedCallback() {
+        this.$card.addEventListener('dragstart', dragNDrop.dragStart);
+        this.$card.addEventListener('dragend', dragNDrop.dragEnd);
         this.$deleteBtn.addEventListener('onClick', this._deleteCard.bind(this));
         this.$editBtn.addEventListener('onClick', this._editCard.bind(this));
-        this.$card.addEventListener('click', this._viewCard.bind(this));
+        this.$content.addEventListener('click', this._viewCard.bind(this));
     }
 
     disconnectedCallback() {
+        this.$card.removeEventListener('dragstart', dragNDrop.dragStart);
+        this.$card.removeEventListener('dragend', dragNDrop.dragEnd);
         this.$deleteBtn.removeEventListener('click', this._deleteCard.bind(this));
         this.$editBtn.removeEventListener('onClick', this._editCard.bind(this));
-        this.$card.removeEventListener('click', this._viewCard.bind(this));
+        this.$content.removeEventListener('click', this._viewCard.bind(this));
     }
 
     set card (value) {
