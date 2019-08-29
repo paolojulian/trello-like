@@ -1,4 +1,8 @@
 import XHRRequest from './xhr-request';
+import EmptyFieldsException from './exceptions/EmptyFieldsException';
+/* Validations */
+import createColumnValidation from './validation/create-column-validation';
+import createCardValidation from './validation/create-card-validation';
 /**
  * /columns
  * [GET]
@@ -61,6 +65,9 @@ export const fetchCardsByColumn = async columnId => {
 export const addColumn = async (column) => {
     try {
 
+        const { errors, isValid } = createColumnValidation(column);
+        if ( ! isValid) throw new EmptyFieldsException(errors);
+
         const url = `http://localhost:3000/columns`
         return await XHRRequest.post({
             url,
@@ -82,6 +89,10 @@ export const addColumn = async (column) => {
 export const addCard = async ({ columnId, card }) => {
     try {
 
+        const { errors, isValid } = createCardValidation(card);
+        if ( ! isValid) throw new EmptyFieldsException(errors);
+
+
         const url = `http://localhost:3000/columns/${columnId}/cards`
         return await XHRRequest.post({
             url,
@@ -91,7 +102,6 @@ export const addCard = async ({ columnId, card }) => {
 
     } catch (err) {
 
-        console.error(err);
         throw err;
 
     }
