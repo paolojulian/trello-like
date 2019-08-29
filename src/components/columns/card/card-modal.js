@@ -11,7 +11,8 @@ template.innerHTML = `
             color: #2D9CDB;
         }
         .card-description {
-            font-weight: 200;
+            font-weight: 400;
+            color: var(--my-font-black);
             letter-spacing: 1px;
             line-height: 1.5rem;
         }
