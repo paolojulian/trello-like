@@ -14,12 +14,6 @@ template.innerHTML = `
             display: block;
             font-family: -apple-system, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
         }
-        :host /deep/ * {
-            margin: 0;
-            padding: 0;
-            border: 0;
-            box-sizing: 0;
-        }
         main {
             --my-primary: rgba(45, 156, 219, 0.90);
             --my-secondary: #2D9CDB;
