@@ -12,13 +12,14 @@
     "copy-webpack-plugin": "^5.0.4",
     "css-loader": "^3.2.0",
     "html-webpack-plugin": "^3.2.0",
+    "jest": "^24.9.0",
     "style-loader": "^1.0.0",
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.7",
     "webpack-dev-server": "^3.8.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "server": "json-server api/db.json",
     "dev": "webpack-dev-server --env.mode development",
     "start": "concurrently \"npm run dev\" \"npm run server\""
