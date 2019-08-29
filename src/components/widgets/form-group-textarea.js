@@ -4,7 +4,7 @@ template.innerHTML = `
         :host {
             display: block
         }
-        input {
+        textarea {
             border: 0;
             box-sizing: border-box;
             outline: none;
@@ -14,11 +14,12 @@ template.innerHTML = `
             box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.15);
             margin: 0.5rem 0;
             width: 100%;
+            resize: none;
         }
         .is-invalid {
             border: 1px solid var(--my-red);
         }
-        .form-input {
+        .form-textarea {
             width: 100%;
         }
         .form-error {
@@ -29,15 +30,12 @@ template.innerHTML = `
         }
     </style>
 
-    <div class="form-group">
-        <div class="form-input">
-            <input
+    <div class="form-group-textarea">
+        <div class="form-textarea">
+            <textarea
                 class="input"
-                type="text"
-                name=""
-                value=""
-                placeholder=""
-            />
+                rows="10"
+                ></textarea>
         </div>
         <div class="form-description">
             <slot name="description"></slot>
@@ -48,7 +46,7 @@ template.innerHTML = `
     </div>
 `
 
-class FormGroup extends HTMLElement {
+class FormGroupTextArea extends HTMLElement {
 
     constructor () {
         super();
@@ -83,19 +81,28 @@ class FormGroup extends HTMLElement {
         if (val) {
             this.$input.classList.add('is-invalid');
             this.$error.innerHTML = val;
+        } else {
+            this.$input.classList.remove('is-invalid');
+            this.$error.innerHTML = '';
         }
     }
 
     static get observedAttributes () {
-        return ['value', 'name', 'placeholder'];
+        return ['value', 'placeholder'];
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        if (oldValue === newValue) return;
-
-        this.$input.setAttribute(name, newValue)
+        console.log(name, oldValue, newValue)
+        switch(name){
+            case "placeholder":
+                this.$input.placeholder = newValue;
+                break;
+            default:
+                this.$input.setAttribute(name, newValue)
+                break;
+        }
     }
 
 }
 
-customElements.define('form-group', FormGroup);
+customElements.define('form-group-textarea', FormGroupTextArea);
