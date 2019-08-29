@@ -1,4 +1,5 @@
 import { addColumn } from "../../../api/api";
+import EmptyFieldsException from '../../../api/exceptions/EmptyFieldsException';
 const template = document.createElement('template');
 template.innerHTML = `
     <style>
@@ -77,7 +78,10 @@ class TrelloColumnForm extends HTMLElement {
     }
 
     _handleError (err) {
-        console.error(err);
+        if (err instanceof EmptyFieldsException) {
+            let { errors } = err
+            this.$title.error = errors.title;
+        }
     }
 }
 
