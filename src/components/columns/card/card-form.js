@@ -1,4 +1,5 @@
 import { addCard } from "../../../../api/api";
+import EmptyFieldsException from '../../../../api/exceptions/EmptyFieldsException';
 const template = document.createElement('template');
 template.innerHTML = `
     <style>
@@ -9,14 +10,21 @@ template.innerHTML = `
 
     <my-card>
         <span slot="header">Add Card</span>
+
         <form-group
             class="title"
-            placeholder="Title"></form-group>
+            placeholder="Title">
+        </form-group>
+        <form-group-textarea
+            class="description"
+            placeholder="Description">
+        </form-group-textarea>
 
-        <form-group
-            class="description
-            placeholder="Description"></form-group>
-
+        <div class="cancel-btn">
+            <my-button
+                backgroundColor="var(--my-red)"
+            >Cancel</my-button>
+        </div>
         <div class="submit-btn">
             <my-button>Submit</my-button>
         </div>
@@ -29,18 +37,26 @@ class TrelloCardForm extends HTMLElement {
         super();
         this._shadowRoot = this.attachShadow({ mode: 'open' });
         this._shadowRoot.appendChild(template.content.cloneNode(true));
+        this.$host = this._shadowRoot.host;
 
         this.$title = this._shadowRoot.querySelector('form-group.title');
-        this.$description = this._shadowRoot.querySelector('form-group.description');
+        this.$description = this._shadowRoot.querySelector('form-group-textarea.description');
+        this.$cancelBtn = this._shadowRoot.querySelector('.cancel-btn my-button');
         this.$submitBtn = this._shadowRoot.querySelector('.submit-btn my-button');
     }
 
     connectedCallback() {
+        this.$cancelBtn.addEventListener('onClick', this._close.bind(this));
         this.$submitBtn.addEventListener('onClick', this._handleSubmit.bind(this));
     }
 
     disconnectedCallback() {
+        this.$cancelBtn.addEventListener('onClick', this._close.bind(this));
         this.$submitBtn.removeEventListener('onClick', this._handleSubmit.bind(this));
+    }
+
+    _close () {
+        this.$host.parentNode.removeChild(this.$host);
     }
 
     set columnId (value) {
@@ -52,9 +68,7 @@ class TrelloCardForm extends HTMLElement {
         this._reloadCards = func.bind(this);
     }
 
-    _handleSubmit (event) {
-
-        event.preventDefault();
+    _handleSubmit () {
 
         let payload = {
             columnId: this._columnId,
@@ -75,7 +89,11 @@ class TrelloCardForm extends HTMLElement {
     }
 
     _handleError (err) {
-        console.error(err);
+        if (err instanceof EmptyFieldsException) {
+            let { errors } = err
+            this.$title.error = errors.title;
+            this.$description.error = errors.description;
+        }
     }
 }
 
