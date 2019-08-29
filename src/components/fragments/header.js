@@ -3,11 +3,12 @@ template.innerHTML = `
     <style>
         :host {
             display: block;
-            position: relative;
+            position: fixed;
             width: 100%;
             height: 50px;
             background-color: #2D9CDB;
             color: #FAFAFA;
+            z-index: 99;
         }
         .title {
             position: absolute;
