@@ -63,7 +63,7 @@ class TrelloColumnForm extends HTMLElement {
     _handleSubmit () {
 
         let payload = {
-            title: this.$title.value,
+            title: this.$title.value.toLowerCase(),
         }
 
         addColumn(payload)

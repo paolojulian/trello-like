@@ -188,7 +188,7 @@ class TrelloColumn extends HTMLElement {
         let payload = {
             columnId: this._column.id,
             column: {
-                title: this.$titleInput.value
+                title: this.$titleInput.value.trim().toLowerCase()
             }
         }
 

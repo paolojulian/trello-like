@@ -73,8 +73,8 @@ class TrelloCardForm extends HTMLElement {
         let payload = {
             columnId: this._columnId,
             card: {
-                title: this.$title.value,
-                description: this.$description.value
+                title: this.$title.value.trim().toLowerCase(),
+                description: this.$description.value.trim().toLowerCase()
             }
         }
 

@@ -94,7 +94,7 @@ class CardEdit extends HTMLElement {
             cardId: this._cardId,
             card: {
                 columnId: this._columnId,
-                title: this.$title.value,
+                title: this.$title.value.trim().toLowerCase(),
                 description: this.$description.value
             }
         }
