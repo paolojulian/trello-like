@@ -10,6 +10,7 @@ template.innerHTML = `
         }
         .header {
             padding: 0.5rem;
+            color: var(--my-font-black);
             border-bottom: 1px solid rgba(0, 0, 0, 0.15);
             text-align: center;
             letter-spacing: 1px;
