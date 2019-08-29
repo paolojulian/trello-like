@@ -1,0 +1,29 @@
+{
+  "name": "trellolike",
+  "version": "1.0.0",
+  "description": "Maltem Exam",
+  "main": "server.js",
+  "dependencies": {
+    "concurrently": "^4.1.2",
+    "http-server": "^0.11.1"
+  },
+  "devDependencies": {
+    "@webcomponents/webcomponentsjs": "^2.2.10",
+    "copy-webpack-plugin": "^5.0.4",
+    "css-loader": "^3.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.7",
+    "webpack-dev-server": "^3.8.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "json-server api/db.json",
+    "dev": "webpack-dev-server --env.mode development",
+    "start": "concurrently \"npm run dev\" \"npm run server\""
+  },
+  "proxy": "http://localhost:5000/",
+  "author": "Paolo Vincent Julian",
+  "license": "MIT"
+}
