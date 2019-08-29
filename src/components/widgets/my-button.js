@@ -19,7 +19,7 @@ template.innerHTML = `
             border: 1px solid var(--background-color);
             background-color: var(--background-color);
             color: var(--color);
-            transition: all 300ms ease-in-out;
+            transition: all 100ms ease-in-out;
 
             cursor: pointer;
         }
