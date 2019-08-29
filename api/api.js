@@ -4,6 +4,7 @@ import EmptyFieldsException from './exceptions/EmptyFieldsException';
 import createColumnValidation from './validation/create-column-validation';
 import editColumnValidation from './validation/edit-column-validation';
 import createCardValidation from './validation/create-card-validation';
+import editCardValidation from './validation/edit-card-validation';
 /**
  * /columns
  * [GET]
@@ -95,6 +96,30 @@ export const addCard = async ({ columnId, card }) => {
 
         const url = `http://localhost:3000/columns/${columnId}/cards`
         return await XHRRequest.post({
+            url,
+            data: card
+        });
+
+
+    } catch (err) {
+
+        throw err;
+
+    }
+}
+/**
+ * /cards/:id
+ * [PUT]
+ * Edit a card
+ */
+export const editCard = async ({ cardId, card }) => {
+    try {
+
+        const { errors, isValid } = await editCardValidation({ cardId, card });
+        if ( ! isValid) throw new EmptyFieldsException(errors);
+
+        const url = `http://localhost:3000/cards/${columnId}`
+        return await XHRRequest.put({
             url,
             data: card
         });
