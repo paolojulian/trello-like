@@ -70,11 +70,11 @@ class FormGroupTextArea extends HTMLElement {
     }
 
     get value () {
-        return this.$input.getAttribute('value');
+        return this.$input.value;
     }
 
     set value (val) {
-        this.$input.setAttribute('value', val);
+        this.$input.value = val
     }
 
     set error (val) {
