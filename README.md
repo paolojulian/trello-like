@@ -29,13 +29,13 @@ npm test
 
 ---
 # In Progress
-- Edit Cards
 - Extend card instead of modal
 - Delete confirmation popup
 - Draggable cards to be put in another column
 - Unit tests
 - Search keywords
 - Integrate Font awesome
+- Better Front end design
 ---
 
 
