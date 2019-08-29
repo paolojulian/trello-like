@@ -5,34 +5,59 @@ template.innerHTML = `
     <style>
         :host {
             display: block;
+        }
+        .card {
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-            width: 300px;
             border-radius: 10px;
-            margin: 2rem 0;
+            margin: 1rem 0;
             cursor: pointer;
+            overflow: hidden;
+            transition: all 200ms ease-in-out;
+            user-select: none;
+        }
+        .card:hover {
+            background-color: #EEEEEE;
+        }
+        .card:hover .header {
+            background-color: var(--my-secondary);
+            color: var(--my-font-white);
         }
         .header {
-            padding: 10px;
+            position: relative;
+            padding: 1rem;
             border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+            transition: all 200ms ease-in-out;
         }
         .content {
-            padding: 10px;
+            padding: 1rem;
             line-height: 1.2rem;
-            font-weight: 300;
+            font-weight: 400;
+            color: var(--my-font-black-secondary);
+            letter-spacing: 1px;
+            max-height: 100px;
+            overflow: auto;
+        }
+        .delete {
+            position: absolute;
+            top: 50%;
+            right: 1rem;
+            transform: translateY(-50%);
         }
     </style>
 
     <div class="card">
         <div class="header">
-            <button
-                type="button"
-                class="delete">
-                Delete
-            </button>
+            <span id="title"></span>
+            <my-button
+                class="delete"
+                backgroundColor="#EB5757"
+                fab
+                fab-size="sm">
+                X
+            </my-button>
         </div>
         <div class="content">
-            <p id="title"></p>
-            <p id="description"></p>
+            <span id="description"></span>
         </div>
     </div>
 `
@@ -47,12 +72,12 @@ class MyColumn extends HTMLElement {
         this.$card = this._shadowRoot.querySelector('.card');
         this.$title = this._shadowRoot.querySelector('#title');
         this.$description = this._shadowRoot.querySelector('#description');
-        this.$deleteBtn = this._shadowRoot.querySelector('button.delete');
+        this.$deleteBtn = this._shadowRoot.querySelector('.delete');
         
     }
 
     connectedCallback() {
-        this.$deleteBtn.addEventListener('click', this._deleteCard.bind(this));
+        this.$deleteBtn.addEventListener('onClick', this._deleteCard.bind(this));
         this.$card.addEventListener('click', this._viewCard.bind(this));
     }
 
