@@ -21,7 +21,7 @@ template.innerHTML = `
 
     <my-button
         class="add-column"
-        backgroundColor="#131313"
+        backgroundColor="var(--my-primary)"
         fab
         >
         +
