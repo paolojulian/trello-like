@@ -8,9 +8,9 @@ const createCardValidate = async(columnId, data) => {
         errors.title = 'Title field is required';
     }
 
-    if ( ! ('description' in data)  || isEmpty(data.description)) {
-        errors.description = 'Description field is required';
-    }
+    // if ( ! ('description' in data)  || isEmpty(data.description)) {
+    //     errors.description = 'Description field is required';
+    // }
 
     if ( ! isEmpty(errors)) {
         return { errors, isValid: false };
