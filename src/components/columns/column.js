@@ -7,34 +7,49 @@ template.innerHTML = `
         :host {
             display: block;
         }
-        li {
-            list-style: none;
+        div.column {
+            flex: 1;
+            margin: 0 2rem;
+            width: 300px;
+            max-width: 100%;
+        }
+        .column-header {
+            position: relative;
+        }
+        .column-header #title {
+            margin-right: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 400;
+            font-size: 1.2rem;
         }
         .remove-column {
-            width: 300px;
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
         }
     </style>
-    <li>
-        <h3 id="title"></h3>
-
-        <div class="remove-column">
-            <my-button
-                fab
-                fab-size="sm"
-                backgroundColor="#EB5757"
-            >
-                X
-            </my-button>
+    <div class="column">
+        <div class="column-header">
+            <h2 id="title"></h2>
+            <span class="remove-column">
+                <my-button
+                    fab
+                    fab-size="sm"
+                    backgroundColor="#EB5757"
+                >
+                    X
+                </my-button>
+            </span>
         </div>
 
-        <ul id="cards"></ul>
+        <div id="cards"></div>
         <div class="add-card">
             <my-button
                 id="add-card"
-                fab
-                fab-size="sm"
             >
-                +
+                ADD CARD
             </my-button>
         </div>
     </li>
@@ -105,7 +120,9 @@ class TrelloColumn extends HTMLElement {
         let $cardForm = document.createElement('trello-card-form');
         $cardForm.columnId = this._column.id;
         $cardForm.reloadCards = this._fetchCards.bind(this);
+        
         this.$cardList.appendChild($cardForm);
+        $cardForm.scrollIntoView({behavior: 'smooth'});
     }
 
     _removeColumn () {
