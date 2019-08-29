@@ -7,16 +7,27 @@ template.innerHTML = `
         :host {
             display: block;
         }
+        .column-list {
+            padding-top: 50px;
+            display: flex;
+            flex-direction: row;
+        }
+        .add-column {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+        }
     </style>
 
-    <button
+    <my-button
         class="add-column"
-        type="button"
-    >
-        Add
-    </button>
+        backgroundColor="#131313"
+        fab
+        >
+        +
+    </my-button>
 
-    <div class="column-list clear">
+    <div class="column-list">
     </div>
 `
 
@@ -31,13 +42,13 @@ class TrelloColumnList extends HTMLElement {
 
         this.$columnForm = this._shadowRoot.querySelector('trello-column-form');
 
-        this.$addColumnBtn = this._shadowRoot.querySelector('button.add-column');
+        this.$addColumnBtn = this._shadowRoot.querySelector('.add-column');
     }
 
     connectedCallback() {
         this._renderColumnList();
 
-        this.$addColumnBtn.addEventListener('click', this._addColumnForm.bind(this));
+        this.$addColumnBtn.addEventListener('onClick', this._addColumnForm.bind(this));
     }
 
     disconnectedCallback() {
