@@ -115,10 +115,10 @@ export const addCard = async ({ columnId, card }) => {
 export const editCard = async ({ cardId, card }) => {
     try {
 
-        const { errors, isValid } = await editCardValidation({ cardId, card });
+        const { errors, isValid } = await editCardValidation({ cardId, data: card });
         if ( ! isValid) throw new EmptyFieldsException(errors);
 
-        const url = `http://localhost:3000/cards/${columnId}`
+        const url = `http://localhost:3000/cards/${cardId}`
         return await XHRRequest.put({
             url,
             data: card

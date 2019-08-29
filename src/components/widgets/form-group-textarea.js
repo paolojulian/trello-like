@@ -92,7 +92,6 @@ class FormGroupTextArea extends HTMLElement {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        console.log(name, oldValue, newValue)
         switch(name){
             case "placeholder":
                 this.$input.placeholder = newValue;

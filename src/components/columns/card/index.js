@@ -144,9 +144,12 @@ class MyColumn extends HTMLElement {
      */
     _editCard () {
         let $cardEdit = document.createElement('card-edit');
+        $cardEdit.addEventListener('onSuccess', this._reloadCards.bind(this));
         this._shadowRoot.appendChild($cardEdit);
+        $cardEdit.id = this._card.id;
         $cardEdit.title = this._card.title;
         $cardEdit.description = this._card.description;
+        $cardEdit.columnId = this._card.columnId;
     }
 }
 

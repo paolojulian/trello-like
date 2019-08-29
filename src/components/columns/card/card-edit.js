@@ -1,3 +1,5 @@
+import { editCard } from "../../../../api/api";
+import EmptyFieldsException from '../../../../api/exceptions/EmptyFieldsException';
 const template = document.createElement('template');
 template.innerHTML = `
     <style>
@@ -35,7 +37,7 @@ template.innerHTML = `
         >
         </form-group-textarea>
 
-        <my-button>
+        <my-button class="submit-btn">
             Submit
         </my-button>
 
@@ -53,15 +55,26 @@ class CardEdit extends HTMLElement {
         this.$modal = this._shadowRoot.querySelector('my-modal');
         this.$title = this.$modal.querySelector('.card-title');
         this.$description = this.$modal.querySelector('.card-description');
-        console.log(this.$description)
+
+        this.$submitBtn = this.$modal.querySelector('.submit-btn');
     }
 
     connectedCallback() {
         this.$modal.addEventListener('onClose', this._close.bind(this));
+        this.$submitBtn.addEventListener('onClick', this._handleSubmit.bind(this));
     }
 
     disconnectedCallback() {
         this.$modal.removeEventListener('onClose', this._close.bind(this));
+        this.$submitBtn.removeEventListener('onClick', this._handleSubmit.bind(this));
+    }
+
+    set id (value) {
+        this._cardId = value
+    }
+
+    set columnId (value) {
+        this._columnId = value
     }
 
     set title (value) {
@@ -74,6 +87,32 @@ class CardEdit extends HTMLElement {
 
     _close () {
         this.$host.parentNode.removeChild(this.$host);
+    }
+
+    _handleSubmit () {
+        const payload = {
+            cardId: this._cardId,
+            card: {
+                columnId: this._columnId,
+                title: this.$title.value,
+                description: this.$description.value
+            }
+        }
+        editCard(payload)
+            .then(this._handleSuccess.bind(this))
+            .catch(this._handleError.bind(this));
+    }
+    _handleSuccess () {
+        this.dispatchEvent(new Event('onSuccess', {}));
+        this._close();
+    }
+
+    _handleError (err) {
+        if (err instanceof EmptyFieldsException) {
+            let { errors } = err
+            this.$title.error = errors.title;
+            this.$description.error = errors.description;
+        }
     }
 
 }

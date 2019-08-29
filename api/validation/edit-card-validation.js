@@ -3,6 +3,7 @@ import { fetchCards } from '../api';
 
 const createCardValidate = async({ cardId, data }) => {
     let errors = {};
+    console.log(data)
 
     if ( ! ('title' in data)  || isEmpty(data.title)) {
         errors.title = 'Title field is required';
