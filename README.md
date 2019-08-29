@@ -34,6 +34,7 @@ npm test
 - Delete confirmation popup
 - Draggable cards to be put in another column
 - Unit tests
+- Search keywords
 ---
 
 
