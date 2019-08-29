@@ -16,7 +16,7 @@ const createCardValidate = async(columnId, data) => {
         return { errors, isValid: false };
     }
 
-    const cardCheck = await fetchCardsByColumn(columnId, `title=${data.title}`);
+    const cardCheck = await fetchCardsByColumn(columnId, `title_like=${data.title}`);
     if (cardCheck.length > 0) {
         errors.title = 'Title already exists in column'
     }
