@@ -35,6 +35,7 @@ npm test
 - Draggable cards to be put in another column
 - Unit tests
 - Search keywords
+- Integrate Font awesome
 ---
 
 

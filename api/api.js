@@ -107,6 +107,27 @@ export const addCard = async ({ columnId, card }) => {
 }
 /**
  * /columns/:id
+ * [PUT]
+ * Modifies a column
+ */
+export const editColumn = async ({ columnId, column }) => {
+    try {
+
+        const { errors, isValid } = await createColumnValidation(column);
+        if ( ! isValid) throw new EmptyFieldsException(errors);
+
+        const url = `http://localhost:3000/columns/${columnId}`
+        return await XHRRequest.put({ url, data: column });
+
+    } catch (err) {
+
+        console.error(err);
+        throw err;
+
+    }
+}
+/**
+ * /columns/:id
  * [DELETE]
  * Delete an entire column
  */

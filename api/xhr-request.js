@@ -1,3 +1,14 @@
+const defaultRequestData = {
+  method: 'GET',
+  mode: 'cors',
+  cache: 'no-cache',
+  headers: {
+      'Content-Type': 'application/json',
+  },
+  redirect: 'follow',
+  referrer: 'no-referrer'
+
+}
 const XHRRequest = {
     any: async requestData => {
       let {url, dataType= "json"} = requestData
@@ -61,6 +72,15 @@ const XHRRequest = {
             },
             redirect: 'follow',
             referrer: 'no-referrer'
+        })
+        .then(response => response.json())
+        .catch(err => console.error(err));
+    },
+    put: ({ url, data }) => {
+        return fetch(url, {
+          ...defaultRequestData,
+          method: "PUT",
+          body: JSON.stringify(data),
         })
         .then(response => response.json())
         .catch(err => console.error(err));
