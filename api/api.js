@@ -28,7 +28,7 @@ export const fetchColumns = async (params = '') => {
  * [GET]
  * Get all cards
  */
-export const fetchCards = async (params) => {
+export const fetchCards = async (params = '') => {
     try {
 
         const response = await fetch(`http://localhost:3000/cards?${params}`);
