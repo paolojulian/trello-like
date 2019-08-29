@@ -3,7 +3,6 @@ import { fetchCards } from '../api';
 
 const createCardValidate = async({ cardId, data }) => {
     let errors = {};
-    console.log(data)
 
     if ( ! ('title' in data)  || isEmpty(data.title)) {
         errors.title = 'Title field is required';
@@ -13,7 +12,7 @@ const createCardValidate = async({ cardId, data }) => {
         return { errors, isValid: false };
     }
 
-    const cardCheck = await fetchCards(`title_like=${data.title}&id_ne=${cardId}`);
+    const cardCheck = await fetchCards(`title=${data.title}&id_ne=${cardId}`);
     if (cardCheck.length > 0) {
         errors.title = 'Title already exists'
     }

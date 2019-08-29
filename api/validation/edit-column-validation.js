@@ -12,7 +12,7 @@ const editColumnValidate = async(columnId, data) => {
         return { errors, isValid: false };
     }
 
-    const columnCheck = await fetchColumns(`title_like=${data.title}&id_ne=${columnId}`);
+    const columnCheck = await fetchColumns(`title=${data.title}&id_ne=${columnId}`);
     if (columnCheck.length > 0) {
         errors.title = 'Title already exists'
     }

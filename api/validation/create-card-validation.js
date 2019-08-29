@@ -12,7 +12,7 @@ const createCardValidate = async(data) => {
         return { errors, isValid: false };
     }
 
-    const cardCheck = await fetchCards(`title_like=${data.title}`);
+    const cardCheck = await fetchCards(`title=${data.title}`);
     if (cardCheck.length > 0) {
         errors.title = 'Title already exists'
     }
